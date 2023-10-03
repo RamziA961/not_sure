@@ -3,3 +3,4 @@
 log.txt
 log.json
 Config.toml
+.env
