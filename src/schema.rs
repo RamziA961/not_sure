@@ -6,17 +6,19 @@ diesel::table! {
         #[max_length = 64]
         last_name -> Varchar,
         dob -> Date,
-        fk_user -> Nullable<Int4>,
+        fk_user -> Int4,
+        #[max_length = 32]
+        first_name -> Varchar,
     }
 }
 
 diesel::table! {
-    organization (id) {
+    organizations (id) {
         id -> Int4,
         #[max_length = 64]
         name -> Varchar,
         founded -> Date,
-        fk_user -> Nullable<Int4>,
+        fk_user -> Int4,
     }
 }
 
@@ -33,13 +35,13 @@ diesel::table! {
         handle -> Varchar,
         created_on -> Nullable<Timestamp>,
         #[max_length = 64]
-        profile_uri -> Varchar,
+        profile_uri -> Nullable<Varchar>,
         #[max_length = 128]
-        photo_uri -> Varchar,
+        photo_uri -> Nullable<Varchar>,
     }
 }
 
 diesel::joinable!(individuals -> users (fk_user));
-diesel::joinable!(organization -> users (fk_user));
+diesel::joinable!(organizations -> users (fk_user));
 
-diesel::allow_tables_to_appear_in_same_query!(individuals, organization, users,);
+diesel::allow_tables_to_appear_in_same_query!(individuals, organizations, users,);

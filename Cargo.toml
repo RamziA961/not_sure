@@ -6,8 +6,9 @@ authors = ["Ramzi Abou Chahine <ramziachahine@pm.me>"]
 
 [dependencies]
 axum = {version = "0.6.20", default-features = true, features = ["macros"]}
-diesel = {version = "2.1.2", default-features = false, features = ["postgres", "chrono", "uuid", "r2d2"]}
+chrono = { version = "0.4.31", features = ["serde"] }
 serde = {version = "1.0.188", default-features = false, features = ["std", "derive"]}
+thiserror = "1.0.49"
 tokio = {version = "1.32.0", features = ["full"]}
 toml = {version = "0.8.1", default-features = true}
 tower = {version = "0.4.13" }
@@ -15,5 +16,14 @@ tower-http = {version = "0.4.4", features = ["full"]}
 tracing = {version = "0.1.37", default-features = true}
 tracing-subscriber = {version = "0.3.17", default-features = true, features = ["json", "env-filter"]}
 
+diesel-postgres = {package = "diesel", version = "2.1.2", default-features = false, features = ["postgres", "chrono", "uuid", "r2d2"], optional = true}
+diesel-sqlite = {package = "diesel", version = "2.1.2", default-features = false, features = ["sqlite", "chrono", "uuid", "r2d2"], optional = true}
+
 [build]
 rustflags = ["-L/opt/homebrew/opt/libpq/lib"]
+
+
+[features]
+default = ["postgres"]
+postgres = ["dep:diesel-postgres"]
+sqlite = ["dep:diesel-sqlite"]
